@@ -5,6 +5,19 @@ MainWindow::MainWindow (QWidget *parent) :
 {
     showMaximized();
 
+    // Create menu
+    QMenu *projectMenu = menuBar()->addMenu(tr("&Project"));
+
+    QAction *buildAction = new QAction(tr("&Build"), this);
+    connect(buildAction, &QAction::triggered, this, &MainWindow::build);
+    projectMenu->addAction(buildAction);
+
+    QAction *checkAction = new QAction(tr("&Check"), this);
+    connect(checkAction, &QAction::triggered, this, &MainWindow::check);
+    projectMenu->addAction(checkAction);
+
+
+    // Create widgets
     QWidget *centralWidget = new QWidget;
     setCentralWidget(centralWidget);
 
@@ -25,6 +38,47 @@ MainWindow::MainWindow (QWidget *parent) :
 }
 
 MainWindow::~MainWindow ()
+{
+    // Clear
+    system("rm -r test_generator");
+    system("rm -r correct_code");
+    system("rm -r code_to_check");
+}
+
+void MainWindow::build ()
+{
+    // Test generator
+    system("mkdir test_generator");
+    QDir::setCurrent("test_generator");
+
+    QFile source1 ("source");
+    source1.open(QIODevice::WriteOnly);
+    source1.write(m_testGenerator->code().toUtf8());
+
+    QDir::setCurrent("..");
+
+    // Test generator
+    system("mkdir correct_code");
+    QDir::setCurrent("correct_code");
+
+    QFile source2 ("source");
+    source2.open(QIODevice::WriteOnly);
+    source2.write(m_correctCode->code().toUtf8());
+
+    QDir::setCurrent("..");
+
+    // Test generator
+    system("mkdir code_to_check");
+    QDir::setCurrent("code_to_check");
+
+    QFile source3 ("source");
+    source3.open(QIODevice::WriteOnly);
+    source3.write(m_codeToCheck->code().toUtf8());
+
+    QDir::setCurrent("..");
+}
+
+void MainWindow::check ()
 {
 
 }

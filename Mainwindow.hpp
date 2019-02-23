@@ -3,6 +3,9 @@
 
 #include <QMainWindow>
 #include <QHBoxLayout>
+#include <QMenuBar>
+#include <QFile>
+#include <QDir>
 
 #include "Code.hpp"
 
@@ -15,6 +18,9 @@ public:
     MainWindow (QWidget *parent = 0);
     ~MainWindow ();
 
+public slots:
+    void build ();
+    void check ();
 
 private:
     Code *m_testGenerator;

@@ -22,6 +22,11 @@ Code::Code (const QString &name, QWidget *parent) :
     layout->addWidget(m_runCommand);
 }
 
+QString Code::code () const
+{
+    return m_code->toPlainText();
+}
+
 void Code::setLanguage (const QString &language)
 {
     if (language == "c++") {
