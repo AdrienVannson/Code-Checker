@@ -2,6 +2,9 @@
 #define MAINWINDOW_HPP
 
 #include <QMainWindow>
+#include <QHBoxLayout>
+
+#include "Code.hpp"
 
 
 class MainWindow : public QMainWindow
