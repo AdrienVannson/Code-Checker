@@ -14,6 +14,12 @@ class MainWindow : public QMainWindow
 public:
     MainWindow (QWidget *parent = 0);
     ~MainWindow ();
+
+
+private:
+    Code *m_testGenerator;
+    Code *m_correctCode;
+    Code *m_codeToCheck;
 };
 
 #endif // MAINWINDOW_HPP

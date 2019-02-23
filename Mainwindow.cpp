@@ -11,9 +11,17 @@ MainWindow::MainWindow (QWidget *parent) :
     QHBoxLayout *layout = new QHBoxLayout;
     centralWidget->setLayout(layout);
 
-    layout->addWidget(new Code("Test generator"));
-    layout->addWidget(new Code("Correct code"));
-    layout->addWidget(new Code("Code to check"));
+    m_testGenerator = new Code ("Test generator");
+    m_testGenerator->setLanguage("python3");
+    layout->addWidget(m_testGenerator);
+
+    m_correctCode = new Code ("Correct code");
+    m_correctCode->setLanguage("c++");
+    layout->addWidget(m_correctCode);
+
+    m_codeToCheck = new Code ("Code to check");
+    m_codeToCheck->setLanguage("c++");
+    layout->addWidget(m_codeToCheck);
 }
 
 MainWindow::~MainWindow ()
