@@ -7,6 +7,7 @@
 #include <QFile>
 #include <QDir>
 #include <QMessageBox>
+#include <QApplication>
 
 #include "Code.hpp"
 

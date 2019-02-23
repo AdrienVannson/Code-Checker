@@ -29,11 +29,11 @@ MainWindow::MainWindow (QWidget *parent) :
     layout->addWidget(m_testGenerator);
 
     m_correctCode = new Code ("Correct code");
-    m_correctCode->setLanguage("python3");
+    m_correctCode->setLanguage("c++");
     layout->addWidget(m_correctCode);
 
     m_codeToCheck = new Code ("Code to check");
-    m_codeToCheck->setLanguage("python3");
+    m_codeToCheck->setLanguage("c++");
     layout->addWidget(m_codeToCheck);
 }
 
@@ -54,6 +54,7 @@ void MainWindow::build ()
     QFile source1 ("source");
     source1.open(QIODevice::WriteOnly);
     source1.write(m_testGenerator->code().toUtf8());
+    source1.close();
 
     system(m_testGenerator->buildCommand().toUtf8());
 
@@ -66,6 +67,7 @@ void MainWindow::build ()
     QFile source2 ("source");
     source2.open(QIODevice::WriteOnly);
     source2.write(m_correctCode->code().toUtf8());
+    source2.close();
 
     system(m_correctCode->buildCommand().toUtf8());
 
@@ -78,6 +80,7 @@ void MainWindow::build ()
     QFile source3 ("source");
     source3.open(QIODevice::WriteOnly);
     source3.write(m_codeToCheck->code().toUtf8());
+    source3.close();
 
     system(m_codeToCheck->buildCommand().toUtf8());
 
