@@ -27,14 +27,25 @@ QString Code::code () const
     return m_code->toPlainText();
 }
 
+QString Code::buildCommand () const
+{
+    return m_buildCommand->text();
+}
+
+QString Code::runCommand () const
+{
+    return m_runCommand->text();
+}
+
+
 void Code::setLanguage (const QString &language)
 {
     if (language == "c++") {
         m_buildCommand->setText("mv source source.cpp && g++ -O3 source.cpp -o prog");
-        m_runCommand->setText("./prog < test");
+        m_runCommand->setText("./prog");
     }
     else if (language == "python3") {
         m_buildCommand->setText("mv source source.py");
-        m_runCommand->setText("python3 source.py < test");
+        m_runCommand->setText("python3 source.py");
     }
 }

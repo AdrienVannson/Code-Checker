@@ -16,6 +16,8 @@ public:
     explicit Code (const QString &name, QWidget *parent=0);
 
     QString code () const;
+    QString buildCommand () const;
+    QString runCommand () const;
 
     void setLanguage (const QString &language);
 

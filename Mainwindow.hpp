@@ -6,6 +6,7 @@
 #include <QMenuBar>
 #include <QFile>
 #include <QDir>
+#include <QMessageBox>
 
 #include "Code.hpp"
 

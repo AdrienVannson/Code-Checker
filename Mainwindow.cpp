@@ -29,11 +29,11 @@ MainWindow::MainWindow (QWidget *parent) :
     layout->addWidget(m_testGenerator);
 
     m_correctCode = new Code ("Correct code");
-    m_correctCode->setLanguage("c++");
+    m_correctCode->setLanguage("python3");
     layout->addWidget(m_correctCode);
 
     m_codeToCheck = new Code ("Code to check");
-    m_codeToCheck->setLanguage("c++");
+    m_codeToCheck->setLanguage("python3");
     layout->addWidget(m_codeToCheck);
 }
 
@@ -55,9 +55,11 @@ void MainWindow::build ()
     source1.open(QIODevice::WriteOnly);
     source1.write(m_testGenerator->code().toUtf8());
 
+    system(m_testGenerator->buildCommand().toUtf8());
+
     QDir::setCurrent("..");
 
-    // Test generator
+    // Correct code
     system("mkdir correct_code");
     QDir::setCurrent("correct_code");
 
@@ -65,9 +67,11 @@ void MainWindow::build ()
     source2.open(QIODevice::WriteOnly);
     source2.write(m_correctCode->code().toUtf8());
 
+    system(m_correctCode->buildCommand().toUtf8());
+
     QDir::setCurrent("..");
 
-    // Test generator
+    // Code to check
     system("mkdir code_to_check");
     QDir::setCurrent("code_to_check");
 
@@ -75,10 +79,32 @@ void MainWindow::build ()
     source3.open(QIODevice::WriteOnly);
     source3.write(m_codeToCheck->code().toUtf8());
 
+    system(m_codeToCheck->buildCommand().toUtf8());
+
     QDir::setCurrent("..");
 }
 
 void MainWindow::check ()
 {
+    QDir::setCurrent("test_generator");
+    system( (m_testGenerator->runCommand() + " > test").toUtf8() );
+    QDir::setCurrent("..");
 
+    QDir::setCurrent("correct_code");
+    system( (m_correctCode->runCommand() + " < ../test_generator/test > output").toUtf8() );
+    QDir::setCurrent("..");
+
+    QDir::setCurrent("code_to_check");
+    system( (m_codeToCheck->runCommand() + " < ../test_generator/test > output").toUtf8() );
+    QDir::setCurrent("..");
+
+    const int result = system("diff -Z correct_code/output code_to_check/output");
+
+    if (result == 1) { // Files differ
+        system("cp test_generator/test test");
+
+        QMessageBox msgBox;
+        msgBox.setText("Test found!");
+        msgBox.exec();
+    }
 }
