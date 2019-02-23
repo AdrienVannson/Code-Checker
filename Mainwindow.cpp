@@ -103,7 +103,7 @@ void MainWindow::check ()
 
     const int result = system("diff -Z correct_code/output code_to_check/output");
 
-    if (result == 1) { // Files differ
+    if (WEXITSTATUS(result) == 1) { // Files differ
         system("cp test_generator/test test");
 
         QMessageBox msgBox;
