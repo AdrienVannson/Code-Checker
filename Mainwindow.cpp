@@ -8,10 +8,6 @@ MainWindow::MainWindow (QWidget *parent) :
     // Create menu
     QMenu *projectMenu = menuBar()->addMenu(tr("&Project"));
 
-    QAction *buildAction = new QAction(tr("&Build"), this);
-    connect(buildAction, &QAction::triggered, this, &MainWindow::build);
-    projectMenu->addAction(buildAction);
-
     QAction *checkAction = new QAction(tr("&Check"), this);
     connect(checkAction, &QAction::triggered, this, &MainWindow::check);
     projectMenu->addAction(checkAction);
@@ -43,6 +39,16 @@ MainWindow::~MainWindow ()
     system("rm -r test_generator");
     system("rm -r correct_code");
     system("rm -r code_to_check");
+}
+
+void MainWindow::check ()
+{
+    build();
+    qApp->processEvents();
+
+    while (!runTest()) {
+        qApp->processEvents();
+    }
 }
 
 void MainWindow::build ()
@@ -87,7 +93,8 @@ void MainWindow::build ()
     QDir::setCurrent("..");
 }
 
-void MainWindow::check ()
+// Returns true if a test that produces different outputs have been found
+bool MainWindow::runTest ()
 {
     QDir::setCurrent("test_generator");
     system( (m_testGenerator->runCommand() + " > test").toUtf8() );
@@ -109,5 +116,9 @@ void MainWindow::check ()
         QMessageBox msgBox;
         msgBox.setText("Test found!");
         msgBox.exec();
+
+        return true;
     }
+
+    return false;
 }

@@ -21,10 +21,13 @@ public:
     ~MainWindow ();
 
 public slots:
-    void build ();
     void check ();
 
 private:
+    void build ();
+    bool runTest ();
+
+
     Code *m_testGenerator;
     Code *m_correctCode;
     Code *m_codeToCheck;
