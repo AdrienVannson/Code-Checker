@@ -8,6 +8,7 @@
 #include <QDir>
 #include <QMessageBox>
 #include <QApplication>
+#include <QStatusBar>
 
 #include "Code.hpp"
 
@@ -27,6 +28,8 @@ private:
     void build ();
     bool runTest ();
 
+
+    int m_nbTests;
 
     Code *m_testGenerator;
     Code *m_correctCode;

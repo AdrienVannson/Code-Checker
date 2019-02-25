@@ -31,6 +31,10 @@ MainWindow::MainWindow (QWidget *parent) :
     m_codeToCheck = new Code ("Code to check");
     m_codeToCheck->setLanguage("c++");
     layout->addWidget(m_codeToCheck);
+
+
+    // Init statusbar
+    statusBar()->showMessage("Ready");
 }
 
 MainWindow::~MainWindow ()
@@ -46,9 +50,16 @@ void MainWindow::check ()
     build();
     qApp->processEvents();
 
+    m_nbTests = 0;
+
     while (!runTest()) {
+        m_nbTests++;
+        statusBar()->showMessage(QString::number(m_nbTests) + QString(" tests"));
+
         qApp->processEvents();
     }
+
+    statusBar()->showMessage("Ready");
 }
 
 void MainWindow::build ()
